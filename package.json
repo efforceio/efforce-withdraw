@@ -1,0 +1,16 @@
+{
+  "name": "efforce-withdraw",
+  "version": "1.0.0",
+  "scripts": {
+    "webapp-start": "cd webapp && react-scripts start",
+    "webapp-build": "cd webapp && react-scripts build",
+    "webapp-deploy": "cd webapp && yarn build && npx thirdweb@latest upload build",
+    "smartcontract-deploy": "cd webapp && npx thirdweb@latest deploy",
+    "smartcontract-build": "cd smartcontract && npx thirdweb@latest detect",
+    "smartcontract-release": "cd smartcontract && npx thirdweb@latest release",
+    "smartcontract-test": "cd smartcontract && npx hardhat test"
+  },
+  "dependencies": {
+    "react-scripts": "^5.0.1"
+  }
+}
