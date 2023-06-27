@@ -14,3 +14,5 @@ export const alchemyConfig = {
     apiKey: "EkieZb4J7MHV2O_OuBI0zMRbpCJHfnDA",
     network: Network.MATIC_MUMBAI,
 };
+
+export const scanBaseUrl = "https://mumbai.polygonscan.com";

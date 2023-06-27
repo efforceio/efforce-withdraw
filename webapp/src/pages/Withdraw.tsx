@@ -1,16 +1,18 @@
-import { ConnectWallet, SmartContract, useContractEvents, WalletInstance } from "@thirdweb-dev/react";
-import Genesis from "./Genesis";
+import { SmartContract, useContractEvents, WalletInstance } from "@thirdweb-dev/react";
+import Genesis from "../components/Genesis";
 import { BigNumber } from "ethers";
 import { useEffect, useState } from "react";
-import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { alchemyConfig, decimals, genesis1Address, genesis2Address } from "../react-app-env";
 import { Alchemy, OwnedNft } from "alchemy-sdk";
-import "../styles/nfts.css";
+import "../styles/withdraw.css";
+import { Navbar } from "../components/Navbar";
+import { Staking } from "../components/Staking";
+import { TransactionsHistory } from "../components/TransactionsHistory";
 
 
-export default function Nfts(props: {
+export default function Withdraw(props: {
     genesis1contract: null|SmartContract,
     genesis2contract: null|SmartContract,
     refund1: BigNumber,
@@ -44,6 +46,8 @@ export default function Nfts(props: {
     const [genesis2, setGenesis2] = useState([] as number[]);
 
     const alchemy = new Alchemy(alchemyConfig);
+
+    const [showHistory, setShowHistory] = useState(false);
 
     useEffect(() => {
         if (walletAddress !== "") {
@@ -120,92 +124,59 @@ export default function Nfts(props: {
         if (genesis1 !== null && genesis2 !== null) {
             const g1Amount = genesis1.length;
             const g2Amount = genesis2.length;
-            console.log(parseNumber(stackRefund));
             return parseNumber(stackRefund.add(refund1.mul(g1Amount).add(refund2.mul(g2Amount))));
         } else {
             return "0.00";
         }
     }
 
-    const call = async () => {
-        if (wallet) {
-            const signer = await wallet.getSigner();
-            const sdk = ThirdwebSDK.fromSigner(signer);
-            return (await sdk.getContract(efforceAddress)).call("receiveRefund", []);
-        }
-    }
-
     return (
         <div>
-            <div className="navbar">
-                <h1 className="navbarTitle">
-                    Efforce withdraw funds
-                </h1>
-                <div className="navbarSpace" />
-                <div className="navbarFunds">
-                    <div className="navbarSpace" />
-                    <h3>Funds in contract: {parseNumber(fundsInContract)} USDT</h3>
-                    <div className="navbarSpace" />
-                </div>
-
-                <ConnectWallet dropdownPosition={{ side: 'bottom', align: 'center'}} />
-            </div>
+            <Navbar funds={parseNumber(fundsInContract)} />
             <div className="content">
-                <h2 className="centeredText">
-                    Total refund: {getAmountRefund()} USDT
-                </h2>
-                {stackRefund.gt(0) ? <div className="stakingContainer">
-                    <h2 className="cardHeader">
-                        Previous staking
-                    </h2>
-                    <div
-                        className="card pointer"
-                        onClick={async () => {
-                            if (wallet) {
-                                call().then((data) => {
-                                    if (data) {
-                                        toast.success(
-                                            "Transaction completed. View on polyscan",
-                                            {
-                                                onClick: () => {
-                                                    window.open(`https://mumbai.polygonscan.com/tx/${data.receipt.transactionHash}`);
-                                                }
-                                            }
-                                        );
-                                    } else {
-                                        toast.error(
-                                            "Transaction failed"
-                                        );
-                                    }
-                                }, () => {
-                                    toast.error("Transaction reverted");
-                                });
-                                toast.info("Waiting for confirmation.");
-                            }
-                        }}
-                    >
-                        <p>Refund: {parseNumber(stackRefund)} USDT</p>
-                    </div>
-                </div> : null}
                 {
-                    genesis1contract !== null ? <Genesis
-                        contract={genesis1contract}
-                        genesis={genesis1}
-                        wallet={wallet}
-                        refund={parseNumber(refund1)}
-                        edition={1}
+                    !showHistory ? <div>
+                        <h2 className="centeredText">
+                            Total refund: {getAmountRefund()} USDT
+                        </h2>
+                        <h3
+                            className="centeredText pointer"
+                            onClick={() => setShowHistory(true)}
+                        >
+                            Transaction history
+                        </h3>
+                        <Staking
+                            stackRefund={stackRefund}
+                            wallet={wallet}
+                            stackRefundStr={parseNumber(stackRefund)}
+                        />
+                        {
+                            genesis1contract !== null ? <Genesis
+                                contract={genesis1contract}
+                                genesis={genesis1}
+                                wallet={wallet}
+                                refund={parseNumber(refund1)}
+                                edition={1}
+                                walletAddress={walletAddress}
+                            /> : null
+                        }
+                        {
+                            genesis2contract !== null ? <Genesis
+                                contract={genesis2contract}
+                                genesis={genesis2}
+                                wallet={wallet}
+                                refund={parseNumber(refund2)}
+                                edition={2}
+                                walletAddress={walletAddress}
+                            /> : null
+                        }
+                    </div> : <TransactionsHistory
+                        close={() => setShowHistory(false)}
+                        alchemy={alchemy}
                         walletAddress={walletAddress}
-                    /> : null
-                }
-                {
-                    genesis2contract !== null ? <Genesis
-                        contract={genesis2contract}
-                        genesis={genesis2}
-                        wallet={wallet}
-                        refund={parseNumber(refund2)}
-                        edition={2}
-                        walletAddress={walletAddress}
-                    /> : null
+                        transferEventData={transferEvent.data}
+                        parseNumber={parseNumber}
+                    />
                 }
             </div>
             <ToastContainer />

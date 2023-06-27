@@ -1,7 +1,7 @@
 import { SmartContract, useConnectionStatus, useWallet } from "@thirdweb-dev/react";
 import "./styles/home.css";
 import { useEffect, useState } from "react";
-import Nfts from "./pages/Nfts";
+import Withdraw from "./pages/Withdraw";
 import LandingPage from "./pages/LandingPage";
 import { BigNumber } from "ethers";
 import { chainId, currencyAddress, efforceAddress, genesis1Address, genesis2Address, sdk } from "./react-app-env";
@@ -64,7 +64,7 @@ export default function Home() {
   }, [wallet, genesis1, genesis2, token]);
 
   return (
-      connectionStatus === 'connected' ? <Nfts
+      connectionStatus === 'connected' ? <Withdraw
           genesis1contract={genesis1}
           genesis2contract={genesis2}
           token={token}

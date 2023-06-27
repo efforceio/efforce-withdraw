@@ -1,7 +1,7 @@
 import { SmartContract, WalletInstance } from "@thirdweb-dev/react";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
 import { toast } from "react-toastify";
-import { efforceAddress } from "../react-app-env";
+import { efforceAddress, scanBaseUrl } from "../react-app-env";
 import "../styles/genesis.css";
 
 export default function Genesis(props: {
@@ -43,21 +43,33 @@ export default function Genesis(props: {
                     onClick={async () => {
                         call(nft).then((data) => {
                             if (data) {
+                                toast.dismiss();
                                 toast.success(
                                     "Transaction completed. View on polyscan",
                                     {
                                         onClick: () => {
-                                            window.open(`https://mumbai.polygonscan.com/tx/${data.receipt.transactionHash}`);
-                                        }
+                                            window.open(`${scanBaseUrl}/tx/${data.receipt.transactionHash}`);
+                                        },
+                                        autoClose: false,
                                     }
                                 );
                             } else {
+                                toast.dismiss();
                                 toast.error(
-                                    "Transaction failed"
+                                    "Transaction failed",
+                                    {
+                                        autoClose: false,
+                                    }
                                 );
                             }
                         });
-                        toast.info("Waiting for confirmation.");
+                        toast.dismiss();
+                        toast.info(
+                            "Waiting for confirmation.",
+                            {
+                                autoClose: false,
+                            }
+                        );
                     }}
                 >
                     <b># {nft}</b>
