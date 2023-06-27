@@ -2,15 +2,12 @@
   "name": "efforce-withdraw",
   "version": "1.0.0",
   "scripts": {
-    "webapp-start": "cd webapp && react-scripts start",
-    "webapp-build": "cd webapp && react-scripts build",
-    "webapp-deploy": "cd webapp && yarn build && npx thirdweb@latest upload build",
-    "smartcontract-deploy": "cd webapp && npx thirdweb@latest deploy",
-    "smartcontract-build": "cd smartcontract && npx thirdweb@latest detect",
-    "smartcontract-release": "cd smartcontract && npx thirdweb@latest release",
-    "smartcontract-test": "cd smartcontract && npx hardhat test"
-  },
-  "dependencies": {
-    "react-scripts": "^5.0.1"
+    "webapp-start": "cd webapp && yarn run start",
+    "webapp-build": "cd webapp && yarn run build",
+    "webapp-deploy": "cd webapp && yarn run deploy",
+    "smartcontract-deploy": "cd webapp && yarn run deploy",
+    "smartcontract-build": "cd smartcontract && yarn run build",
+    "smartcontract-release": "cd smartcontract && yarn run release",
+    "smartcontract-test": "cd smartcontract && yarn run test"
   }
 }
