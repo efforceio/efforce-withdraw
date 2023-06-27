@@ -1,0 +1,18 @@
+.container {
+    margin-top: 50px
+}
+
+.marginLeft {
+    margin-left: 20px
+}
+
+.gridContainer {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%)
+}
+
+.cardContainer {
+    cursor: pointer;
+    flex: 1
+}
