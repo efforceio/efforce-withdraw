@@ -9,7 +9,8 @@
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.2",
     "@types/jest": "^29.5.1",
-    "hardhat": "^2.14.0"
+    "hardhat": "^2.14.0",
+    "ts-node": "^10.9.1"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.8.3",

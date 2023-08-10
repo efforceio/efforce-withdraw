@@ -1,18 +1,22 @@
 import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
 import { Network } from "alchemy-sdk";
 
-export const activeChain = "mumbai";
-export const chainId = 80001;
-export const sdk = new ThirdwebSDK(activeChain);
-export const genesis1Address = "0x4649f6a68232785A582a095DCB899aedb0Ba9327";
-export const genesis2Address = "0xD863E3805f0450c0dC7bCFD809FFcDbb28313269"
-export const efforceAddress = "0x4D1072948E66eBceC234311CE5Ed15D623759c36";
-export const currencyAddress = "0x29373f5A90A3606d3892869f1595A648CCDe0bE6";
-export const decimals = 18;
+export const activeChain = "polygon";
+export const chainId = 137;
+export const sdk = new ThirdwebSDK(
+    activeChain,
+    {
+        clientId: "216ed3fbe75d1fcd0a18801cc29f1917",
+    });
+export const genesis1Address = "0xC849AD758bF4F69A087Ce0dF164b3a4F28f4B49C";
+export const genesis2Address = "0x6cC885Ca0E488f42a9397f923C53B270E2a728de"
+export const efforceAddress = "0x3Ce7Bd5b242796998B8B4d3389bAaeE6f6b50824";
+export const currencyAddress = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F";
+export const decimals = 6;
 
 export const alchemyConfig = {
-    apiKey: "EkieZb4J7MHV2O_OuBI0zMRbpCJHfnDA",
-    network: Network.MATIC_MUMBAI,
+    apiKey: "2c1ZP5xu2Tv8V7Bi3Cievt3bxUGz03s9",
+    network: Network.MATIC_MAINNET,
 };
 
-export const scanBaseUrl = "https://mumbai.polygonscan.com";
+export const scanBaseUrl = "https://polygonscan.com";

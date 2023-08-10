@@ -2,12 +2,14 @@
   "name": "efforce-withdraw",
   "version": "1.0.0",
   "scripts": {
-    "webapp-start": "cd webapp && yarn run start",
-    "webapp-build": "cd webapp && yarn run build",
-    "webapp-deploy": "cd webapp && yarn run deploy",
-    "smartcontract-deploy": "cd webapp && yarn run deploy",
-    "smartcontract-build": "cd smartcontract && yarn run build",
-    "smartcontract-release": "cd smartcontract && yarn run release",
-    "smartcontract-test": "cd smartcontract && yarn run test"
+    "webapp-start": "cd webapp && run run start",
+    "webapp-build": "cd webapp && run run build",
+    "webapp-deploy": "cd webapp && run run deploy",
+    "webapp-run-install": "cd webapp && npm install",
+    "smartcontract-deploy": "cd webapp && npm run deploy",
+    "smartcontract-build": "cd smartcontract && npm run build",
+    "smartcontract-release": "cd smartcontract && npm run release",
+    "smartcontract-test": "cd smartcontract && npx run test",
+    "smartcontract-npm-install": "cd smartcontract && npm install"
   }
 }
