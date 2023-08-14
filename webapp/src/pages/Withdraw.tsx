@@ -36,11 +36,23 @@ export default function Withdraw(props: {
     } = props;
 
 
-    const transferEvent = useContractEvents(token, "Transfer");
+    const transferEvent = useContractEvents(
+        token,
+        "Transfer",
+        {
+            queryFilter: {
+                filters: {
+                    from: efforceAddress,
+                    to: efforceAddress
+                }
+            }
+        }
+    );
     const [fundsInContract, setFundsInContract] = useState(BigNumber.from(0));
     const nftTransferEvent1 = useContractEvents(genesis1contract, "Transfer");
     const nftTransferEvent2 = useContractEvents(genesis2contract, "Transfer");
     const [stackRefund, setStackRefund] = useState(BigNumber.from(0));
+    const [loadingFunds, setLoadingFunds] = useState(true);
 
     const [genesis1, setGenesis1] = useState([] as number[]);
     const [genesis2, setGenesis2] = useState([] as number[]);
@@ -54,6 +66,7 @@ export default function Withdraw(props: {
             if (token) {
                 token.erc20.balanceOf(efforceAddress).then((balance) => {
                     setFundsInContract(balance.value);
+                    setLoadingFunds(false);
                 });
             }
             if (efforce !== null) {
@@ -63,15 +76,7 @@ export default function Withdraw(props: {
                 });
             }
         }
-    }, [transferEvent.data]);
-
-    useEffect(() => {
-        if (token) {
-            token.erc20.balanceOf(efforceAddress).then((balance) => {
-                setFundsInContract(balance.value);
-            });
-        }
-    }, [token]);
+    }, [transferEvent.data, walletAddress, token?.getAddress()]);
 
     const parseNumber  = (number: BigNumber) => {
         const s = number.toString();
@@ -132,7 +137,7 @@ export default function Withdraw(props: {
 
     return (
         <div>
-            <Navbar funds={parseNumber(fundsInContract)} />
+            <Navbar funds={parseNumber(fundsInContract)} loading={loadingFunds} />
             <div className="content">
                 {
                     !showHistory ? <div>

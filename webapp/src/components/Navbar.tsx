@@ -1,9 +1,10 @@
 import { ConnectWallet } from "@thirdweb-dev/react";
 
 export const Navbar = (props: {
-    funds?: string
+    funds?: string,
+    loading: boolean
 }) => {
-    const {funds} = props;
+    const {funds, loading} = props;
 
     return <div className="navbar">
         <h1 className="navbarTitle">
@@ -14,7 +15,7 @@ export const Navbar = (props: {
         {
             funds ? <div className="navbarFunds">
                 <div className="navbarSpace" />
-                <h3>Funds in contract: {funds} USDT</h3>
+                <h3>Funds in contract: {loading ? "Loading…": `${funds} USDT`}</h3>
                 <div className="navbarSpace" />
             </div> : null
         }
